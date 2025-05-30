@@ -11,6 +11,7 @@ services:
       - ./backend:/app
     environment:
       - FLASK_ENV=production
+    restart: unless-stopped
 
   frontend:
     build:
@@ -18,5 +19,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - backend
+    restart: unless-stopped
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/lib/letsencrypt:/var/lib/letsencrypt:ro
